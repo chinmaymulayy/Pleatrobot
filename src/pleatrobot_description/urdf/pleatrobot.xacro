@@ -1,0 +1,657 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find pleatrobot_description)/urdf/pleatrobot.gazebo.xacro" />
+  <!-- Import Transmissions -->
+  <!-- <xacro:include filename="$(find pleatrobot_description)/urdf/pleatrobot.transmission.xacro" /> -->
+  <!-- Include Utilities -->
+  <xacro:include filename="$(find pleatrobot_description)/urdf/utilities.xacro" />
+  
+  <!-- some constants -->
+  <xacro:property name="safety_controller_k_pos" value="100" />
+  <xacro:property name="safety_controller_k_vel" value="2" /> 
+  <xacro:property name="joint_damping" value="0.5" />
+  <xacro:property name="max_effort" value="300"/>
+  <xacro:property name="max_velocity" value="10"/>
+  
+  <xacro:macro name="pleatrobot" params="parent hardware_interface robot_name *origin">
+    
+    <!--joint between {parent} and link_0-->
+    <joint name="${parent}_${robot_name}_joint" type="fixed">
+      <origin xyz="-0.035 0.075 1.98253" rpy="0 3.1416 0"/>
+      <parent link="${parent}"/>
+      <child link="${robot_name}_link_0"/>
+    </joint>
+    
+    <link name="${robot_name}_link_0">
+      <inertial>
+        <origin xyz="-0.1 0 0.07" rpy="0 0 0"/>
+        <mass value="5"/>
+        <inertia ixx="0.05"  ixy="0"  ixz="0" iyy="0.06" iyz="0" izz="0.03" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_0.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_0.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </collision>
+      
+      <self_collision_checking>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <capsule radius="0.15" length="0.25"/>
+        </geometry>
+      </self_collision_checking>
+      
+    </link>
+    
+    <!-- joint between link_0 and link_1 -->
+    <joint name="${robot_name}_joint_1" type="revolute">
+      <parent link="${robot_name}_link_0"/>
+      <child link="${robot_name}_link_1"/>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-170 * PI / 180}" upper="${170 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                         soft_upper_limit="${168 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_1">
+      <inertial>
+        <origin xyz="0 -0.03 0.12" rpy="0 0 0"/>
+        <mass value="3.4525"/>
+        <inertia ixx="0.02183"  ixy="0"  ixz="0" iyy="0.007703" iyz="-0.003887" izz="0.02083" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0.0075" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_1.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.0075" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_1.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+    </link>
+    
+    <joint name="${robot_name}_joint_2" type="revolute">
+      <parent link="${robot_name}_link_1"/>
+      <child link="${robot_name}_link_2"/>
+      <origin xyz="0 0 0.19" rpy="${PI / 2}   0 ${PI}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-120 * PI / 180}" upper="${120 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                         soft_upper_limit="${118 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_2">
+      <inertial>
+        <origin xyz="0.0003 0.059 0.042" rpy="0 0 0"/>
+        <mass value="3.4821"/>
+        <inertia ixx="0.02076"  ixy="0"  ixz="-0.003626" iyy="0.02179" iyz="0" izz="0.00779" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_2.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_2.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+    </link>
+    
+    <joint name="${robot_name}_joint_3" type="revolute">
+      <parent link="${robot_name}_link_2"/>
+      <child link="${robot_name}_link_3"/>
+      <origin xyz="0 0.21 0" rpy="${PI / 2} 0 ${PI}"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-170 * PI / 180}" upper="${170 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                         soft_upper_limit="${168 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_3">
+      <inertial>
+        <origin xyz="0 0.03 0.13" rpy="0 0 0"/>
+        <mass value="4.05623"/>
+        <inertia ixx="0.03204"  ixy="0"  ixz="0" iyy="0.00972" iyz="0.006227" izz="0.03042" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_3.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_3.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+      
+    </link>
+    
+    <joint name="${robot_name}_joint_4" type="revolute">
+      <parent link="${robot_name}_link_3"/>
+      <child link="${robot_name}_link_4"/>
+      <origin xyz="0 0 0.19" rpy="${PI / 2} 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-120 * PI / 180}" upper="${120 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                         soft_upper_limit="${118 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_4">
+      <inertial>
+        <origin xyz="0 0.067 0.034" rpy="0 0 0"/>
+        <mass value="3.4822"/>
+        <inertia ixx="0.02178"  ixy="0"  ixz="0" iyy="0.02075" iyz="-0.003625" izz="0.007785" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_4.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_4.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+    </link>
+    
+    <joint name="${robot_name}_joint_5" type="revolute">
+      <parent link="${robot_name}_link_4"/>
+      <child link="${robot_name}_link_5"/>
+      <origin xyz="0 0.21 0" rpy="${-PI / 2} ${PI} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-170 * PI / 180}" upper="${170 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-168 * PI / 180}"
+                         soft_upper_limit="${168 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_5">
+      <inertial>
+        <origin xyz="0.0001 0.021 0.076" rpy="0 0 0"/>
+        <mass value="2.1633"/>
+        <inertia ixx="0.01287"  ixy="0"  ixz="0" iyy="0.005708" iyz="-0.003946" izz="0.01112" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_5.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 -0.026" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_5.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+    </link>
+    
+    <joint name="${robot_name}_joint_6" type="revolute">
+      <parent link="${robot_name}_link_5"/>
+      <child link="${robot_name}_link_6"/>
+      <origin xyz="0 0.06070 0.19" rpy="${PI / 2} 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-120 * PI / 180}" upper="${120 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-118 * PI / 180}"
+                         soft_upper_limit="${118 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_6">
+      <inertial>
+        <origin xyz="0 0.0006 0.0004" rpy="0 0 0"/>
+        <mass value="2.3466"/>
+        <inertia ixx="0.006509"  ixy="0"  ixz="0" iyy="0.006259" iyz="0.00031891" izz="0.004527" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_6.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_6.stl"/>
+        </geometry>
+        <material name="Orange"/>
+      </collision>
+    </link>
+    
+    <joint name="${robot_name}_joint_7" type="revolute">
+      <parent link="${robot_name}_link_6"/>
+      <child link="${robot_name}_link_7"/>
+      <origin xyz="0 0.081 0.06070" rpy="${- PI / 2} ${PI} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-175 * PI / 180}" upper="${175 * PI / 180}"
+             effort="${max_effort}" velocity="${max_velocity}" />
+      <safety_controller soft_lower_limit="${-173 * PI / 180}"
+                         soft_upper_limit="${173 * PI / 180}"
+                         k_position="${safety_controller_k_pos}"
+                         k_velocity="${safety_controller_k_vel}"/> 
+      <dynamics damping="${joint_damping}"/>
+    </joint>
+    
+    <link name="${robot_name}_link_7">
+      <inertial>
+        <origin xyz="0 0 0.02" rpy="0 0 0"/>
+        <mass value="3.129"/>
+        <inertia ixx="0.01464"  ixy="0.0005912"  ixz="0" iyy="0.01465" iyz="0" izz="0.002872" />
+      </inertial>
+      
+      <visual>
+        <origin xyz="0 0 -0.0005" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/visual/link_7.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </visual>
+      
+      <collision>
+        <origin xyz="0 0 -0.0005" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://pleatrobot_description/meshes/iiwa7/collision/link_7.stl"/>
+        </geometry>
+        <material name="Grey"/>
+      </collision>
+    </link>
+    
+    
+    <joint name="pleatrobot_joint_ee" type="fixed">
+      <parent link="pleatrobot_link_7"/>
+      <child link="gripper_base_link"/>
+      <origin rpy="-1.5708 0 0" xyz="0 0 0"/>
+    </joint>
+
+
+    <link name="gripper_base_link">
+      <inertial>
+        <origin xyz="-1.2189E-07 1.2713 2.1759E-06" rpy="0 0 0" />
+        <mass value="0.20104" />
+        <inertia ixx="0.00012096" iyy="0.00021064" izz="0.00012095" ixy="-3.4543E-10" ixz="7.792E-11" iyz="2.2037E-09"/>
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/base_link.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/base_link.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+
+    <link name="01_child">
+      <inertial>
+        <origin xyz="0.0094532 -0.6 -0.0033489" rpy="0 0 0" />
+        <mass value="1.3212" />
+        <inertia ixx="0.00226" iyy="0.0128225" izz="0.01281505" ixy="0" ixz="0.0016" iyz="0" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/01_child.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/01_child.STL" />
+        </geometry>
+      </collision>
+    </link>
+
+
+    <joint name="f_01child" type="fixed">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <parent
+        link="gripper_base_link" />
+      <child
+        link="01_child" />
+      <axis
+        xyz="0 0 0" />
+    </joint>
+
+
+    <link name="jaw1">
+      <inertial>
+        <origin xyz="-0.0085346 0.047394 0.082598" rpy="0 0 0" />
+        <mass value="0.40493" />
+        <inertia ixx="0.00035017" iyy="0.00038396" izz="0.00025634" ixy="0" ixz="0" iyz="0" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/jaw1.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.82745 0.69804 0.4902 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/jaw1.STL" />
+        </geometry>
+      </collision>
+    </link>
+  
+  
+    <joint name="fixed_jaw1" type="fixed">
+      <origin
+        xyz="0.025 -0.303 0"
+        rpy="1.5708 -1.5708 3.14159" />
+      <parent
+        link="01_child" />
+      <child
+        link="jaw1" />
+      <axis
+        xyz="0 0 0" />
+      <limit
+        lower="-0.0872665"
+        upper="0.0872665"
+        effort="50"
+        velocity="100" />
+    </joint>
+
+
+    <link name="rod1">
+      <inertial>
+        <origin xyz="-0.00016212 0.079673 -0.00023128" rpy="0 0 0" />
+        <mass value="0.23263" />
+        <inertia ixx="0.00021456" iyy="5.3561E-05" izz="0.00022185" ixy="0" ixz="0" iyz="0" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod1.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.52941 0.54902 0.54902 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod1.STL" />
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <joint name="c_rod1" type="continuous">
+      <origin
+        xyz="-0.081888 0 0"
+        rpy="3.1416 0.58586 1.5708" />
+      <parent
+        link="jaw1" />
+      <child
+        link="rod1" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        effort="50"
+        velocity="100" />
+    </joint>
+    
+    
+    <link name="rod2">
+      <inertial>
+        <origin xyz="-0.098 -1.328 8.1314E-17" rpy="0 0 0" />
+        <mass value="0.033326" />
+        <inertia ixx="6.3581E-07" iyy="6.3516E-05" izz="6.3516E-05" ixy="3.8774E-23" ixz="1.6156E-23" iyz="-2.6552E-25" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod2.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.79216 0.81961 0.93333 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod2.STL" />
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <joint name="f_rod2" type="fixed">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <parent
+        link="01_child" />
+      <child
+        link="rod2" />
+      <axis
+        xyz="0 0 0" />
+    </joint>
+    
+    
+    <link name="jaw2">
+      <inertial>
+        <origin xyz="-0.063785 -0.2 -0.002598" rpy="0 0 0" />
+        <mass value="0.81068" />
+        <inertia ixx="0.0007992" iyy="0.00051604" izz="0.00010843" ixy="0.00060318" ixz="-1.2528E-07" iyz="-2.7791E-07" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/jaw2.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.82745 0.69804 0.4902 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 1.21 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/jaw2.STL" />
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <joint name="p_jaw2" type="prismatic">
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <parent
+        link="rod2" />
+      <child
+        link="jaw2" />
+      <axis
+        xyz="-1 0 0" />
+      <limit
+        lower="0"
+        upper="0.05"
+        effort="50"
+        velocity="100" />
+    </joint>
+    
+    
+    <link name="rod3">
+      <inertial>
+        <origin xyz="-0.000287482481318269 0.0796731129142511 2.27008169670917E-05" rpy="0 0 0" />
+        <mass value="0.232866245737791" />
+        <inertia ixx="0.000223656460602869" iyy="5.35773404241321E-05" izz="0.000212754182688039" ixy="-4.85120700596206E-13" ixz="7.44206671716712E-07" iyz="1.44557114747249E-11" />
+      </inertial>
+      <visual>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod3.STL" />
+        </geometry>
+        <material
+          name="">
+          <color
+            rgba="0.529411764705882 0.549019607843137 0.549019607843137 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin
+          xyz="0 0 0"
+          rpy="0 0 0" />
+        <geometry>
+          <mesh
+            filename="package://gripper_description/meshes/rod3.STL" />
+        </geometry>
+      </collision>
+    </link>
+    
+    
+    <joint name="c_rod3" type="continuous">
+      <origin
+        xyz="-0.025 -0.303 0.081888"
+        rpy="-1.5708 0 -0.55284" />
+      <parent
+        link="jaw2" />
+      <child
+        link="rod3" />
+      <axis
+        xyz="0 1 0" />
+      <limit
+        effort="50"
+        velocity="100" />
+    </joint>    
+
+     
+    
+    <!--Extensions -->
+    <xacro:pleatrobot_gazebo robot_name="${robot_name}" />
+    <!-- <xacro:pleatrobot_transmission hardware_interface="${hardware_interface}"/> -->
+    
+  </xacro:macro>
+  
+</robot>

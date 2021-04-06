@@ -1,0 +1,8 @@
+prefix=/home/chinmay/pleatrobot_ws3/devel
+
+Name: gantry_control
+Description: Description of gantry_control
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

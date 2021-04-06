@@ -1,0 +1,23 @@
+digraph G {
+node [shape=box];
+"base_link" [label="base_link"];
+"child_01" [label="child_01"];
+"rod2" [label="rod2"];
+"jaw2" [label="jaw2"];
+"rod3" [label="rod3"];
+"jaw1" [label="jaw1"];
+"rod1" [label="rod1"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"base_link" -> "f_01child" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_01child" -> "child_01"
+"child_01" -> "f_rod2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_rod2" -> "rod2"
+"rod2" -> "p_jaw2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"p_jaw2" -> "jaw2"
+"jaw2" -> "c_rod3" [label="xyz: -0.025 -1.503 0.081888 \nrpy: -1.5708 -0 -0.55284"]
+"c_rod3" -> "rod3"
+"child_01" -> "fixed_jaw1" [label="xyz: 0.025 -1.503 0 \nrpy: 0 -1.5708 4.71239"]
+"fixed_jaw1" -> "jaw1"
+"jaw1" -> "c_rod1" [label="xyz: -0.081888 0 0 \nrpy: -3.14159 0.58586 1.5708"]
+"c_rod1" -> "rod1"
+}

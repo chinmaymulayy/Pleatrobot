@@ -1,0 +1,2 @@
+gantry_control:gantry_description:gripper_control:gripper_description:pleatrobot_control:pleatrobot_description:pleatrobot_moveit_config:pleatrobot_moveit_config2
+-DCATKIN_DEVEL_PREFIX=/home/chinmay/pleatrobot_ws3/devel -DCMAKE_INSTALL_PREFIX=/home/chinmay/pleatrobot_ws3/install -G Unix Makefiles

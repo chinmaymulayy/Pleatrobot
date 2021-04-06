@@ -1,0 +1,40 @@
+# Hand-made
+controller_manager_ns: /
+controller_list:
+  - name: gantry_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    allowed_execution_duration_scaling: 1.2
+    allowed_goal_duration_margin: 0.5
+    allowed_start_tolerance: 1.0
+    joints:
+      - p_motion1
+      - p_motion2
+
+  - name: kuka_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    allowed_execution_duration_scaling: 1.2
+    allowed_goal_duration_margin: 0.5
+    allowed_start_tolerance: 1.0
+    joints:
+      - pleatrobot_joint_1
+      - pleatrobot_joint_2
+      - pleatrobot_joint_3
+      - pleatrobot_joint_4
+      - pleatrobot_joint_5
+      - pleatrobot_joint_6
+      - pleatrobot_joint_7
+
+  - name: gripper_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    allowed_execution_duration_scaling: 1.2
+    allowed_goal_duration_margin: 0.5
+    allowed_start_tolerance: 1.0
+    default: true
+    parallel: true
+    joints:
+      - p_jaw2
+      - c_rod3
+      - c_rod1

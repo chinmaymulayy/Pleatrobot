@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="pleatrobot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find pleatrobot_description)/urdf/materials.xacro" />
+  <!--Import the lbr iiwa macro -->
+  <xacro:include filename="$(find pleatrobot_description)/urdf/pleatrobot.xacro"/>
+  <!--Import the gantry urdf-->
+  <xacro:include filename="$(find gantry_description)/urdf/gantry_description.urdf"/>
+
+  <xacro:arg name="hardware_interface" default="PositionJointInterface"/>
+  <xacro:arg name="robot_name" default="pleatrobot"/>
+  <xacro:arg name="origin_xyz" default="0 0 0"/>
+  <xacro:arg name="origin_rpy" default="0 0 0"/>
+  
+
+  <!--iiwa-->
+  <xacro:pleatrobot hardware_interface="$(arg hardware_interface)" robot_name="$(arg robot_name)" parent="motion2_slider">
+    <origin xyz="$(arg origin_xyz)" rpy="$(arg origin_rpy)" />
+  </xacro:pleatrobot>
+  
+</robot>

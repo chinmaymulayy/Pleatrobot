@@ -1,0 +1,8 @@
+prefix=/home/chinmay/pleatrobot_ws3/devel
+
+Name: pleat_robot_moveit_config2
+Description: Description of pleat_robot_moveit_config2
+Version: 0.3.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

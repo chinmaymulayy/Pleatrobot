@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: pleatrobot_description
+    relative_path: urdf/pleatrobot.urdf
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/pleatrobot.srdf
+  CONFIG:
+    author_name: chinmay
+    author_email: chinmay200@gmail.com
+    generated_timestamp: 1607631134

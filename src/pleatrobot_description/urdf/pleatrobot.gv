@@ -1,0 +1,80 @@
+digraph G {
+node [shape=box];
+"world" [label="world"];
+"base_link" [label="base_link"];
+"left_bar" [label="left_bar"];
+"right_bar" [label="right_bar"];
+"right_motor" [label="right_motor"];
+"right_rod" [label="right_rod"];
+"motion1_slider" [label="motion1_slider"];
+"top_bar" [label="top_bar"];
+"top_motor" [label="top_motor"];
+"top_rod" [label="top_rod"];
+"motion2_slider" [label="motion2_slider"];
+"pleatrobot_link_0" [label="pleatrobot_link_0"];
+"pleatrobot_link_1" [label="pleatrobot_link_1"];
+"pleatrobot_link_2" [label="pleatrobot_link_2"];
+"pleatrobot_link_3" [label="pleatrobot_link_3"];
+"pleatrobot_link_4" [label="pleatrobot_link_4"];
+"pleatrobot_link_5" [label="pleatrobot_link_5"];
+"pleatrobot_link_6" [label="pleatrobot_link_6"];
+"pleatrobot_link_7" [label="pleatrobot_link_7"];
+"gripper_base_link" [label="gripper_base_link"];
+"01_child" [label="01_child"];
+"rod2" [label="rod2"];
+"jaw2" [label="jaw2"];
+"rod3" [label="rod3"];
+"jaw1" [label="jaw1"];
+"rod1" [label="rod1"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"world" -> "world_to_baselink" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"world_to_baselink" -> "base_link"
+"base_link" -> "f_left_bar" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_left_bar" -> "left_bar"
+"base_link" -> "f_right_bar" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_right_bar" -> "right_bar"
+"right_bar" -> "f_right_motor" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_right_motor" -> "right_motor"
+"right_motor" -> "f_right_rod" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_right_rod" -> "right_rod"
+"right_rod" -> "p_motion1" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"p_motion1" -> "motion1_slider"
+"motion1_slider" -> "f_top_bar" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_top_bar" -> "top_bar"
+"top_bar" -> "f_top_motor" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_top_motor" -> "top_motor"
+"top_motor" -> "f_top_rod" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_top_rod" -> "top_rod"
+"top_rod" -> "p_motion2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"p_motion2" -> "motion2_slider"
+"motion2_slider" -> "motion2_slider_pleatrobot_joint" [label="xyz: -0.035 0.075 1.98253 \nrpy: 3.14159 -7.34641e-06 3.14159"]
+"motion2_slider_pleatrobot_joint" -> "pleatrobot_link_0"
+"pleatrobot_link_0" -> "pleatrobot_joint_1" [label="xyz: 0 0 0.15 \nrpy: 0 -0 0"]
+"pleatrobot_joint_1" -> "pleatrobot_link_1"
+"pleatrobot_link_1" -> "pleatrobot_joint_2" [label="xyz: 0 0 0.19 \nrpy: 1.5708 1.26218e-29 -3.14159"]
+"pleatrobot_joint_2" -> "pleatrobot_link_2"
+"pleatrobot_link_2" -> "pleatrobot_joint_3" [label="xyz: 0 0.21 0 \nrpy: 1.5708 1.26218e-29 -3.14159"]
+"pleatrobot_joint_3" -> "pleatrobot_link_3"
+"pleatrobot_link_3" -> "pleatrobot_joint_4" [label="xyz: 0 0 0.19 \nrpy: 1.5708 -0 0"]
+"pleatrobot_joint_4" -> "pleatrobot_link_4"
+"pleatrobot_link_4" -> "pleatrobot_joint_5" [label="xyz: 0 0.21 0 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"pleatrobot_joint_5" -> "pleatrobot_link_5"
+"pleatrobot_link_5" -> "pleatrobot_joint_6" [label="xyz: 0 0.0607 0.19 \nrpy: 1.5708 -0 0"]
+"pleatrobot_joint_6" -> "pleatrobot_link_6"
+"pleatrobot_link_6" -> "pleatrobot_joint_7" [label="xyz: 0 0.081 0.0607 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"pleatrobot_joint_7" -> "pleatrobot_link_7"
+"pleatrobot_link_7" -> "pleatrobot_joint_ee" [label="xyz: 0 0 0 \nrpy: -1.5708 0 0"]
+"pleatrobot_joint_ee" -> "gripper_base_link"
+"gripper_base_link" -> "f_01child" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_01child" -> "01_child"
+"01_child" -> "f_rod2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"f_rod2" -> "rod2"
+"rod2" -> "p_jaw2" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"p_jaw2" -> "jaw2"
+"jaw2" -> "c_rod3" [label="xyz: -0.025 -0.303 0.081888 \nrpy: -1.5708 -0 -0.55284"]
+"c_rod3" -> "rod3"
+"01_child" -> "fixed_jaw1" [label="xyz: 0.025 -0.303 0 \nrpy: 0 -1.5708 4.71239"]
+"fixed_jaw1" -> "jaw1"
+"jaw1" -> "c_rod1" [label="xyz: -0.081888 0 0 \nrpy: -3.14159 0.58586 1.5708"]
+"c_rod1" -> "rod1"
+}

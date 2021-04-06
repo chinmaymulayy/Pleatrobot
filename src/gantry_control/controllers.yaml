@@ -1,0 +1,12 @@
+gantry_controller:
+  type: "position_controllers/JointTrajectoryController"
+  joints:
+    - p_motion1
+    - p_motion2
+
+  constraints:
+    goal_time: 0.0                    # Override default
+    state_publish_rate:  25            # Override default
+    action_monitor_rate: 30            # Override default
+    stop_trajectory_duration: 0        # Override default
+

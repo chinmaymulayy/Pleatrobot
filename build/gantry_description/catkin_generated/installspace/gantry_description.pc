@@ -1,0 +1,8 @@
+prefix=/home/chinmay/pleatrobot_ws3/install
+
+Name: gantry_description
+Description: Description of gantry_description
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
